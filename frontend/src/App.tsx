@@ -1,11 +1,34 @@
 import Todo, { type TodoProps } from './components/Todos';
 import axios from 'axios';
 import CreateTodo from "./components/createTodo";
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+type TodoContextType = {
+  todos: TodoProps[],
+  setTodos: React.Dispatch<React.SetStateAction<TodoProps[]>>;
+}
+
+export const TodoContext = createContext<TodoContextType | null>(null);
+
+function TodoProvider({ children }: { children: React.ReactNode }) {
+  const [todos, setTodos] = useState<TodoProps[]>([]);
+
+  return (
+    <TodoContext.Provider value={{ todos, setTodos }}>
+      {children}
+    </TodoContext.Provider>
+  )
+}
+
+export function useTodos() {
+  const context = useContext(TodoContext)!;
+
+  return context;
+}
 
 function TodoList() {
-  // add token in header
-  const [todos, setTodos] = useState<TodoProps[]>([]);
+  const context = useContext(TodoContext);
+  const {todos, setTodos} = context!;
   
   useEffect(() => {
     try {
@@ -34,7 +57,7 @@ function TodoList() {
 
   return (
     <div className="App">
-      <CreateTodo setTodos={setTodos} />
+      <CreateTodo />
       <div className="todo-list">
         {todos.map((todo) => (
         <Todo key={todo._id} {...todo} />
@@ -44,7 +67,7 @@ function TodoList() {
   );
 }
 
-function App() {
+function Project() {
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -118,4 +141,11 @@ function App() {
   }
 }
 
+function App() {
+  return (
+    <TodoProvider>
+      <Project />
+    </TodoProvider>
+  );
+}
 export default App;

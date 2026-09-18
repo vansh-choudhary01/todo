@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useState } from "react";
+import CreateTodo from "./createTodo";
 
 export interface TodoProps {
   _id: string;
@@ -19,6 +21,7 @@ function Todo({
   createdAt,
   completedAt,
 }: TodoProps) {
+  const [editing, setEditing] = useState(false);
   function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const isChecked = event.target.checked;
@@ -101,6 +104,9 @@ function Todo({
       </div>
 
       <button className="delete-button" onClick={handleDelete}>Delete</button>
+      {editing ? <CreateTodo editTodo={{_id, title, priority, toBeCompletedTill, description, createdAt, completedAt, setEditing} as TodoProps & {setEditing: React.Dispatch<React.SetStateAction<Boolean>>}}></CreateTodo> : 
+        <button className="edit-button" onClick={() => setEditing((prev) => !prev)}>Edit</button>
+      }
     </div>
   );
 }

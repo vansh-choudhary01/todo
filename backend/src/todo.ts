@@ -7,10 +7,10 @@ const todoRouter = Router();
 
 todoRouter.post("/", async (req: Request, res: Response) => {
     try {
-        const {title, discription, toBeCompletedTill, priority} = req.body;
+        const {title, description, toBeCompletedTill, priority} = req.body;
         const user = req.user;
 
-        const todo = await todoModel.create({title, discription, toBeCompletedTill, priority, user: user._id});
+        const todo = await todoModel.create({title, description, toBeCompletedTill, priority, user: user._id});
 
         res.status(201).json({
             status: true,
@@ -87,7 +87,7 @@ todoRouter.get("/", async (req: Request, res: Response) => {
 
 todoRouter.patch("/", async (req: Request, res: Response) => {
     try {
-        const {title, discription, toBeCompletedTill, priority, todoId, completed} = req.body;
+        const {title, description, toBeCompletedTill, priority, todoId, completed} = req.body;
         const user = req.user;
 
         const todo = await todoModel.findOne({_id: todoId, user: user._id});
@@ -98,7 +98,7 @@ todoRouter.patch("/", async (req: Request, res: Response) => {
         });
 
         if (title) todo.title = title;
-        if (discription) todo.discription = discription;
+        if (description) todo.description = description;
         if (toBeCompletedTill) todo.toBeCompletedTill = toBeCompletedTill;
         if (priority) todo.priority = priority;
         if (completed === true || completed === "true") todo.completedAt = new Date();

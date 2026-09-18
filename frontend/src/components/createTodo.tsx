@@ -1,16 +1,19 @@
 import { useState } from "react";
 import type { TodoProps } from "./Todos";
 import axios from "axios";
+import { useTodos } from "../App";
 
 type CreateTodoProps = Omit<TodoProps, "_id" | "user" | "createdAt" | "updatedAt">;
 
-export default function CreateTodo({ setTodos }: { setTodos: React.Dispatch<React.SetStateAction<TodoProps[]>> }) {
+export default function CreateTodo({ editTodo }: { editTodo?: TodoProps & {setEditing: React.Dispatch<React.SetStateAction<Boolean>>} }) {
+    const {setTodos} = useTodos();
+    console.log(editTodo);
     const [todo, setTodo] = useState<CreateTodoProps>({
-        title: '',
-        description: '',
-        toBeCompletedTill: '',
-        priority: 'normal',
-        completedAt: ''
+        title: editTodo ? editTodo.title : '',
+        description: editTodo ? editTodo.description : '',
+        toBeCompletedTill: editTodo ? editTodo.toBeCompletedTill : '',
+        priority: editTodo ? editTodo.priority : 'normal',
+        completedAt: editTodo ? editTodo.completedAt : ''
     });
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -29,7 +32,11 @@ export default function CreateTodo({ setTodos }: { setTodos: React.Dispatch<Reac
         event.preventDefault();
 
         const res: { data: { data: TodoProps }
-    status: number } = await axios.post("http://localhost:4000/api/todo", todo, {
+    status: number } = editTodo ? await axios.patch("http://localhost:4000/api/todo", {...todo, todoId: editTodo._id}, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }) : await axios.post("http://localhost:4000/api/todo", todo, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -45,6 +52,17 @@ export default function CreateTodo({ setTodos }: { setTodos: React.Dispatch<Reac
                 priority: 'normal',
                 completedAt: ''
             });
+        } else if (editTodo && res.status === 200) {
+            alert("Todo updated successfully");
+            setTodos((currentTodos) => currentTodos.map((curr) => curr._id === editTodo._id ? res.data.data : curr));
+            setTodo({
+                title: '',
+                description: '',
+                toBeCompletedTill: '',
+                priority: 'normal',
+                completedAt: ''
+            });
+            editTodo.setEditing(false);
         } else {
             alert("Failed to create todo");
         }
@@ -82,11 +100,11 @@ export default function CreateTodo({ setTodos }: { setTodos: React.Dispatch<Reac
                 value={todo.priority}
                 onChange={handleChange}
             >
-                <option value="low">Low</option>
                 <option value="normal">Normal</option>
+                <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
-            <button type="submit">Create Todo</button>
+            <button type="submit">{editTodo ? "Update Todo" : "Create Todo"}</button>
         </form>
     );
 }
