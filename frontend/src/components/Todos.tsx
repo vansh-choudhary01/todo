@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import CreateTodo from "./createTodo";
+import { useTodos } from "../App";
 
 export interface TodoProps {
   _id: string;
@@ -22,6 +23,7 @@ function Todo({
   completedAt,
 }: TodoProps) {
   const [editing, setEditing] = useState(false);
+  const {setTodos} = useTodos();
   function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const isChecked = event.target.checked;
@@ -47,33 +49,12 @@ function Todo({
       }
     }).then((res) => {
       console.log(res.data);
-      window.location.reload();
+      setTodos((todos) => todos.filter((todo) => todo._id !== _id));
     }).catch((err) => {
       console.error(err);
     });
   }
 
-  function handleEdit(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    try {
-    event.preventDefault();
-    const { value, name } = event.target;
-    
-    axios.patch("http://localhost:4000/api/todo", {
-      todoId: _id,
-      [name]: value
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    }).then((res) => {
-      console.log(res.data);
-    }).catch((err) => {
-      console.error(err);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
   return (
     <div className="diagram">
       <div className="header">

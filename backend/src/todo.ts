@@ -41,7 +41,7 @@ const quearyValidater = z.object({
     stDate: z.string(),
     endDate: z.string(),
     priority: z.enum(["normal", "medium", "high"]).optional(),
-    completed: z.enum(["true", "false"])
+    completed: z.enum(["true", "false"]).optional()
 })
 
 todoRouter.get("/", async (req: Request, res: Response) => {
@@ -50,6 +50,7 @@ todoRouter.get("/", async (req: Request, res: Response) => {
         const validate = quearyValidater.safeParse(queary);
 
         if (!validate.success) {
+            console.log(validate.error);
             return res.status(400).json({
                 status: false,
                 message: "queary validation error"
