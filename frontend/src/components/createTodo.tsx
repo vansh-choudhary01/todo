@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { TodoProps } from "./Todos";
 import axios from "axios";
 import { useTodos } from "../App";
-const backendUrl = import.meta.env.VITE_REACT_BACKEND_URL;
+
 
 type CreateTodoProps = Omit<TodoProps, "_id" | "user" | "createdAt" | "updatedAt">;
 

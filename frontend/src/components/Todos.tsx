@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import CreateTodo from "./createTodo";
 import { useTodos } from "../App";
-const backendUrl = import.meta.env.VITE_REACT_BACKEND_URL;
+
 
 export interface TodoProps {
   _id: string;

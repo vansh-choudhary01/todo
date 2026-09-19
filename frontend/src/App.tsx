@@ -2,7 +2,7 @@ import Todo, { type TodoProps } from './components/Todos';
 import axios from 'axios';
 import CreateTodo from "./components/createTodo";
 import { createContext, useContext, useEffect, useState } from 'react';
-const backendUrl = import.meta.env.VITE_REACT_BACKEND_URL;
+
 
 type TodoContextType = {
   todos: TodoProps[],
