@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import CreateTodo from "./createTodo";
 import { useTodos } from "../App";
+const backendUrl = import.meta.env.VITE_REACT_BACKEND_URL;
 
 export interface TodoProps {
   _id: string;
@@ -28,7 +29,7 @@ function Todo({
     event.preventDefault();
     const isChecked = event.target.checked;
 
-    axios.patch("http://localhost:4000/api/todo", {
+    axios.patch(`${backendUrl}api/todo`, {
       todoId: _id,
       completed: isChecked
     }, {
@@ -43,7 +44,7 @@ function Todo({
   }
 
   function handleDelete() {
-    axios.delete(`http://localhost:4000/api/todo/${_id}`, {
+    axios.delete(`${backendUrl}api/todo/${_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }

@@ -21,7 +21,7 @@ app.get("/health", (_req: Request, res: Response) => {
 })
 
 app.use(cors({
-    "origin": "http://localhost:5173"
+    "origin": process.env.FRONTEND_URL || "http://localhost:5173"
 }))
 app.use(express.json());
 

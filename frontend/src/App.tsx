@@ -2,6 +2,7 @@ import Todo, { type TodoProps } from './components/Todos';
 import axios from 'axios';
 import CreateTodo from "./components/createTodo";
 import { createContext, useContext, useEffect, useState } from 'react';
+const backendUrl = import.meta.env.VITE_REACT_BACKEND_URL;
 
 type TodoContextType = {
   todos: TodoProps[],
@@ -47,7 +48,7 @@ function TodoList() {
 
   useEffect(() => {
     try {
-      axios.get('http://localhost:4000/api/todo',
+      axios.get(`${backendUrl}api/todo`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -110,7 +111,7 @@ function Project() {
               const username = formData.get('username') as string;
               const password = formData.get('password') as string;
 
-              const res: { data: { token: string }, status: number } = await axios.post("http://localhost:4000/api/login", {
+              const res: { data: { token: string }, status: number } = await axios.post(`${backendUrl}api/login`, {
                 username,
                 password
               });
@@ -140,7 +141,7 @@ function Project() {
                   const username = formData.get('username') as string;
                   const password = formData.get('password') as string;
 
-                  const res: { data: { token: string }, status: number } = await axios.post("http://localhost:4000/api/signup", {
+                  const res: { data: { token: string }, status: number } = await axios.post(`${backendUrl}api/signup`, {
                     username,
                     password
                   });
