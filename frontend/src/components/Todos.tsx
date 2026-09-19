@@ -36,7 +36,7 @@ function Todo({
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).then((res) => {
-      console.log(res.data);
+      setTodos((todos) => todos.map((todo) => todo._id === _id ? res.data.data : todo));
     }).catch((err) => {
       console.error(err);
     });
@@ -79,7 +79,7 @@ function Todo({
         </div>
 
         <div className="time">
-          <input type="checkbox" checked={!!completedAt} onChange={handleCheckboxChange} />
+          <input type="checkbox" disabled={!!completedAt} checked={!!completedAt} onChange={handleCheckboxChange} />
           Completed: {completedAt || "Not completed"}
         </div>
       </div>

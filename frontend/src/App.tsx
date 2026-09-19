@@ -68,7 +68,9 @@ function TodoList() {
     <div className="App">
       <CreateTodo />
       <div className="todo-list">
-        <select name='completedSelect' value={filter.completed} onChange={(event) => setFilter((filter) => { return { ...filter, completed: event.target.value === "" ? undefined : event.target.value } })}>
+        <input type="date" value={filter.stDate} onChange={(event) => setFilter((filter) => { return { ...filter, page: 1, stDate: event.target.value } })}></input>
+        <input type="date" value={filter.endDate} onChange={(event) => setFilter((filter) => { return { ...filter, page: 1, endDate: event.target.value } })}></input>
+        <select name='completedSelect' value={filter.completed} onChange={(event) => setFilter((filter) => { return { ...filter, page: 1, completed: event.target.value === "" ? undefined : event.target.value } })}>
           <option value="">All</option>
           <option value="true">completed Only</option>
           <option value="false">Not completed</option>
