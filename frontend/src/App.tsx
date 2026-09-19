@@ -105,6 +105,7 @@ function Project() {
           <div>
             <h1>Login</h1>
             <form onSubmit={async (e) => {
+              try {
               e.preventDefault();
 
               const formData = new FormData(e.currentTarget);
@@ -122,6 +123,9 @@ function Project() {
               } else {
                 alert("Login failed");
               }
+            } catch (err) {
+              alert("Login failed");
+            }
             }}>
               <input type="text" name="username" placeholder="Username" />
               <input type="password" name="password" placeholder="Password" />
