@@ -33,11 +33,11 @@ export default function CreateTodo({ editTodo }: { editTodo?: TodoProps & {setEd
         event.preventDefault();
 
         const res: { data: { data: TodoProps }
-    status: number } = editTodo ? await axios.patch(`${backendUrl}api/todo`, {...todo, todoId: editTodo._id}, {
+    status: number } = editTodo ? await axios.patch(`https://todo-ybuz.naaspeeti.xyz/api/todo`, {...todo, todoId: editTodo._id}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-        }) : await axios.post(`${backendUrl}api/todo`, todo, {
+        }) : await axios.post(`https://todo-ybuz.naaspeeti.xyz/api/todo`, todo, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }

@@ -48,7 +48,7 @@ function TodoList() {
 
   useEffect(() => {
     try {
-      axios.get(`${backendUrl}api/todo`,
+      axios.get(`https://todo-ybuz.naaspeeti.xyz/api/todo`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -112,7 +112,7 @@ function Project() {
               const username = formData.get('username') as string;
               const password = formData.get('password') as string;
 
-              const res: { data: { token: string }, status: number } = await axios.post(`${backendUrl}api/login`, {
+              const res: { data: { token: string }, status: number } = await axios.post(`https://todo-ybuz.naaspeeti.xyz/api/login`, {
                 username,
                 password
               });
@@ -145,7 +145,7 @@ function Project() {
                   const username = formData.get('username') as string;
                   const password = formData.get('password') as string;
 
-                  const res: { data: { token: string }, status: number } = await axios.post(`${backendUrl}api/signup`, {
+                  const res: { data: { token: string }, status: number } = await axios.post(`https://todo-ybuz.naaspeeti.xyz/api/signup`, {
                     username,
                     password
                   });

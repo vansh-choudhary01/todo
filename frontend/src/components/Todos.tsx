@@ -29,7 +29,7 @@ function Todo({
     event.preventDefault();
     const isChecked = event.target.checked;
 
-    axios.patch(`${backendUrl}api/todo`, {
+    axios.patch(`https://todo-ybuz.naaspeeti.xyz/api/todo`, {
       todoId: _id,
       completed: isChecked
     }, {
@@ -44,7 +44,7 @@ function Todo({
   }
 
   function handleDelete() {
-    axios.delete(`${backendUrl}api/todo/${_id}`, {
+    axios.delete(`https://todo-ybuz.naaspeeti.xyz/api/todo/${_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
